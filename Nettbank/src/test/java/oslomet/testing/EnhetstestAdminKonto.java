@@ -16,7 +16,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class AdminKontoControllerTest {
+public class EnhetstestAdminKonto {
 
     @InjectMocks
     // denne skal testes

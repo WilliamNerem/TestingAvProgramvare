@@ -24,19 +24,9 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class EnhetstestBankController {
 
-    //Maren
-
     @InjectMocks
     // denne skal testes
     private BankController bankController;
-
-    @Test
-    public void testPersonnummer() {
-        Konto nykonto = new Konto();
-        nykonto.setPersonnummer("15079934795");
-        String personnummer = nykonto.getPersonnummer();
-        assertEquals("15079934795", personnummer);
-    }
 
     @Mock
     // denne skal Mock'es
