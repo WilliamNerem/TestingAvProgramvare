@@ -30,14 +30,6 @@ public class EnhetstestBankController {
     // denne skal testes
     private BankController bankController;
 
-    @Test
-    public void testPersonnummer() {
-        Konto nykonto = new Konto();
-        nykonto.setPersonnummer("15079934795");
-        String personnummer = nykonto.getPersonnummer();
-        assertEquals("15079934795", personnummer);
-    }
-
     @Mock
     // denne skal Mock'es
     private BankRepository repository;
