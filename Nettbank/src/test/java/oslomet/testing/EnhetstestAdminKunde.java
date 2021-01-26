@@ -24,7 +24,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class EnhetsAdminKunde {
+public class EnhetstestAdminKunde {
 
     @InjectMocks
     private AdminKundeController adminKundeController;
