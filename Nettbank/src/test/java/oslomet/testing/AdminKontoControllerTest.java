@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -30,7 +31,7 @@ public class AdminKontoControllerTest {
     private Sikkerhet sjekk;
 
     @Test
-    public void hentAlleKontiPersonnummerNotNull() {
+    public void testhentAlleKonti_loggetInn() {
         List<Konto> liste = new ArrayList<>();
         Konto konto1 = new Konto("105010123456", "01010110523",
                 720, "Lønnskonto", "NOK", null);
@@ -49,14 +50,14 @@ public class AdminKontoControllerTest {
     }
 
     @Test
-    public void hentAlleKontiPersonnummerNull(){
+    public void testhentAlleKonti_ikkeloggetInn(){
         when(sjekk.loggetInn()).thenReturn(null);
         List<Konto> resultat = adminKontoController.hentAlleKonti();
         assertNull(resultat);
     }
 
     @Test
-    public void registrerKontoPersonnummerNotNull(){
+    public void testregistrerKonto_loggetInn(){
         Konto konto1 = new Konto("105010123456", "01010110523",
                 720, "Lønnskonto", "NOK", null);
 
@@ -70,13 +71,11 @@ public class AdminKontoControllerTest {
     }
 
     @Test
-    public void registrerKontoPersonnummerNull(){
+    public void testregistrerKonto_ikkeloggetInn(){
         Konto konto1 = new Konto("105010123456", "01010110523",
                 720, "Lønnskonto", "NOK", null);
 
         when(sjekk.loggetInn()).thenReturn(null);
-
-        when(repository.registrerKonto(konto1)).thenReturn("Feil");
 
         String resultat = adminKontoController.registrerKonto(konto1);
 
@@ -84,7 +83,7 @@ public class AdminKontoControllerTest {
     }
 
     @Test
-    public void endreKontoPersonnummerNotNull(){
+    public void testendreKonto_loggetInn(){
         Konto konto1 = new Konto("105010123456", "01010110523",
                 720, "Lønnskonto", "NOK", null);
 
@@ -98,13 +97,11 @@ public class AdminKontoControllerTest {
     }
 
     @Test
-    public void endreKontoPersonnummerNull(){
+    public void testendreKonto_ikkeloggetInn(){
         Konto konto1 = new Konto("105010123456", "01010110523",
                 720, "Lønnskonto", "NOK", null);
 
         when(sjekk.loggetInn()).thenReturn(null);
-
-        when(repository.endreKonto(konto1)).thenReturn("Feil");
 
         String resultat = adminKontoController.endreKonto(konto1);
 
@@ -112,29 +109,27 @@ public class AdminKontoControllerTest {
     }
 
     @Test
-    public void slettKontoPersonnummerNotNull(){
+    public void testslettKonto_loggetInn(){
         Konto konto1 = new Konto("105010123456", "01010110523",
                 720, "Lønnskonto", "NOK", null);
 
         when(sjekk.loggetInn()).thenReturn("Admin");
 
-        when(repository.slettKonto("105010123456")).thenReturn("OK");
+        when(repository.slettKonto(anyString())).thenReturn("OK");
 
-        String resultat = adminKontoController.slettKonto("105010123456");
+        String resultat = adminKontoController.slettKonto(konto1.getKontonummer());
 
         assertEquals("OK", resultat);
     }
 
     @Test
-    public void slettKontoPersonnummerNull(){
+    public void testslettKonto_ikkeloggetInn(){
         Konto konto1 = new Konto("105010123456", "01010110523",
                 720, "Lønnskonto", "NOK", null);
 
         when(sjekk.loggetInn()).thenReturn(null);
 
-        when(repository.slettKonto("105010123456")).thenReturn("Feil kononummer");
-
-        String resultat = adminKontoController.slettKonto("105010123456");
+        String resultat = adminKontoController.slettKonto(konto1.getKontonummer());
 
         assertEquals("Ikke innlogget", resultat);
     }
