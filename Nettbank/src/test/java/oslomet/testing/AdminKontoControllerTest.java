@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -118,9 +119,9 @@ public class AdminKontoControllerTest {
 
         when(sjekk.loggetInn()).thenReturn("Admin");
 
-        when(repository.slettKonto("105010123456")).thenReturn("OK");
+        when(repository.slettKonto(anyString())).thenReturn("OK");
 
-        String resultat = adminKontoController.slettKonto("105010123456");
+        String resultat = adminKontoController.slettKonto(konto1.getKontonummer());
 
         assertEquals("OK", resultat);
     }
@@ -132,9 +133,9 @@ public class AdminKontoControllerTest {
 
         when(sjekk.loggetInn()).thenReturn(null);
 
-        when(repository.slettKonto("105010123456")).thenReturn("Feil kononummer");
+        when(repository.slettKonto(anyString())).thenReturn("Feil kononummer");
 
-        String resultat = adminKontoController.slettKonto("105010123456");
+        String resultat = adminKontoController.slettKonto(konto1.getKontonummer());
 
         assertEquals("Ikke innlogget", resultat);
     }
