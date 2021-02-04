@@ -43,7 +43,7 @@ public class Sikkerhet {
         session.setAttribute("Innlogget", null);
     }
 
-    @GetMapping("/loggInnAdmin")
+        @GetMapping("/loggInnAdmin")
     public String loggInnAdmin(String bruker, String passord){
         if (bruker.equals("Admin") && (passord.equals(("Admin")))) {
             session.setAttribute("Innlogget", "Admin");
