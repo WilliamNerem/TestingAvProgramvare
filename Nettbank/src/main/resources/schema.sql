@@ -19,6 +19,8 @@ CREATE TABLE IF NOT EXISTS `Konto` (
 -- Tabellstruktur for tabell `Kunde`
 --
 
+DROP TABLE Kunde IF EXISTS;
+
 CREATE TABLE IF NOT EXISTS `Kunde` (
                                        `Personnummer` varchar(11) NOT NULL,
                                        `Fornavn` varchar(30) NOT NULL,
