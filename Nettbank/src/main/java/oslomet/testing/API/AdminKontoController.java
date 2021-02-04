@@ -28,7 +28,7 @@ public class AdminKontoController {
     }
 
     @PostMapping("/registrer")
-    public String registrerKonto(@RequestBody Konto konto) {
+    public String registrerKonto(Konto konto) {
         String personnummer = sjekk.loggetInn();
         if (personnummer!=null) {
             String retur = repository.registrerKonto(konto);
