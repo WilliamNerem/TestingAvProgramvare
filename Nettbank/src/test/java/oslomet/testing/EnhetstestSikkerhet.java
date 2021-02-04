@@ -78,7 +78,7 @@ public class EnhetstestSikkerhet {
     }
 
     @Test
-    public void test_sjekkLoggetInnFeil() { // Denne er feil, ble ikke ferdig med den
+    public void test_sjekkLoggetInnFeil() { // Litt usikker på denne
 
         when(repository.sjekkLoggInn(anyString(), anyString())).thenReturn("Feil i personnummer eller passord");
 
@@ -96,8 +96,85 @@ public class EnhetstestSikkerhet {
 
         session.setAttribute("Innlogget", "12345678901");
 
-        String resultat = sikkerhetsController.sjekkLoggInn("12345678901", "HeiHeiHei");
+        String resultat = sikkerhetsController.sjekkLoggInn("12345678901", "HeiHei");
+
 
         assertEquals("Feil i personnummer eller passord", resultat);
+    }
+
+    @Test
+    public void test_sjekkLoggetInnAdminOK() {
+
+        Map<String, Object> attributes = new HashMap<String, Object>();
+
+        doAnswer(new Answer<Object>() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                String key = (String) invocation.getArguments()[0];
+                Object value = invocation.getArguments()[1];
+                attributes.put(key, value);
+                return null;
+            }
+        }).when(session).setAttribute(anyString(), any());
+
+        session.setAttribute("Innlogget", "Admin");
+
+        String resultat = sikkerhetsController.loggInnAdmin("Admin","Admin");
+
+        assertEquals("Logget inn", resultat);
+    }
+
+    @Test
+    public void test_sjekkLoggetInnAdminFeil() {
+
+        Map<String, Object> attributes = new HashMap<String, Object>();
+
+        doAnswer(new Answer<Object>() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                String key = (String) invocation.getArguments()[0];
+                Object value = invocation.getArguments()[1];
+                attributes.put(key, value);
+                return null;
+            }
+        }).when(session).setAttribute(anyString(), any());
+
+        session.setAttribute("Innlogget", "Admin");
+
+        String resultat1 = sikkerhetsController.loggInnAdmin("Admins","Admin");
+        String resultat2 = sikkerhetsController.loggInnAdmin("Admin","Admins");
+
+        assertEquals("Ikke logget inn", resultat1);
+        assertEquals("Ikke logget inn", resultat2);
+    }
+
+    @Test
+    public void test_LoggetInn() {
+        Map<String,Object> attributes = new HashMap<String,Object>();
+
+        doAnswer(new Answer<Object>(){
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                String key = (String) invocation.getArguments()[0];
+                return attributes.get(key);
+            }
+        }).when(session).getAttribute(anyString());
+
+        doAnswer(new Answer<Object>(){
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                String key = (String) invocation.getArguments()[0];
+                Object value = invocation.getArguments()[1];
+                attributes.put(key, value);
+                return null;
+            }
+        }).when(session).setAttribute(anyString(), any());
+
+        // arrange
+        session.setAttribute("Innlogget","12345678901");
+        // act
+        String resultat = sikkerhetsController.loggetInn();
+        // assert
+        assertEquals("12345678901", resultat);
     }
 }
